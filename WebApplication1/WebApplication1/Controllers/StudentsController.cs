@@ -31,6 +31,37 @@ public class StudentsController : Controller
         return View(student);
     }
 
+    // GET: /Students/Create
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View(); 
+    }
+
+    // POST: /Students/Create
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(Student student)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                _studentRepository.CreateStudent(student);
+                _studentRepository.Save();
+            
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(student);
+        }
+        catch (Exception exp)
+        {
+            ModelState.AddModelError(string.Empty, "An error occurred while saving the student. Please check your data.");
+            return View(student);
+        }
+    }
+
     // GET: /Students/Edit/5
     public IActionResult Edit(int id)
     {
@@ -41,7 +72,10 @@ public class StudentsController : Controller
         }
         return View(student);
     }
+    
+    // POST: /Students/Edit/5
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Student student)
     {
         if (id != student.StudentId) 
@@ -75,6 +109,7 @@ public class StudentsController : Controller
         return View(student);
     }
 
+    // GET: /Students/Delete/5
     public IActionResult Delete(int id)
     {
         var student = _studentRepository.GetStudent(id);
@@ -82,11 +117,12 @@ public class StudentsController : Controller
         {
             return NotFound();
         }
-        // Return a view showing the student details for confirmation
         return View(student);
     }
 
+    // POST: /Students/Delete/5
     [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
     {
         var student = _studentRepository.GetStudent(id);
@@ -96,7 +132,6 @@ public class StudentsController : Controller
         }
         _studentRepository.DeleteStudent(id);
         _studentRepository.Save();
-        // Use TempData to show a success message on the next request (Index)
         TempData["StatusMessage"] = $"Student with ID {id} has been successfully deleted.";
         return RedirectToAction(nameof(Index));
     }

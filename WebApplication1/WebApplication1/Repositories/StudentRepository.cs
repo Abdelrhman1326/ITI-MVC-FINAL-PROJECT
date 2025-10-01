@@ -29,6 +29,12 @@ public class StudentRepository : IStudentRepository
             .FirstOrDefault(s => s.StudentId == id);
     }
 
+    public void CreateStudent(Student student)
+    {
+        _context.Students.Add(student);
+        _context.SaveChanges();
+    }
+
     public void EditStudent(Student student)
     {
         _context.Students.Update(student);
