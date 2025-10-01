@@ -221,7 +221,6 @@ D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApp
 D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\obj\Debug\net9.0\staticwebassets.build.json.cache
 D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\obj\Debug\net9.0\staticwebassets.development.json
 D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\obj\Debug\net9.0\WebAppli.7D14BD69.Up2Date
 D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\obj\Debug\net9.0\WebApplication1.dll
 D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\obj\Debug\net9.0\refint\WebApplication1.dll
