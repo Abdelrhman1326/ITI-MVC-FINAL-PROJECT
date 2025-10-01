@@ -74,4 +74,30 @@ public class StudentsController : Controller
         
         return View(student);
     }
+
+    public IActionResult Delete(int id)
+    {
+        var student = _studentRepository.GetStudent(id);
+        if (student == null)
+        {
+            return NotFound();
+        }
+        // Return a view showing the student details for confirmation
+        return View(student);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public IActionResult DeleteConfirmed(int id)
+    {
+        var student = _studentRepository.GetStudent(id);
+        if (student == null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+        _studentRepository.DeleteStudent(id);
+        _studentRepository.Save();
+        // Use TempData to show a success message on the next request (Index)
+        TempData["StatusMessage"] = $"Student with ID {id} has been successfully deleted.";
+        return RedirectToAction(nameof(Index));
+    }
 }

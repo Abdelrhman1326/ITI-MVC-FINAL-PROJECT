@@ -34,6 +34,12 @@ public class StudentRepository : IStudentRepository
         _context.Students.Update(student);
     }
 
+    public void DeleteStudent(int id)
+    {
+        var student = GetStudent(id);
+        _context.Students.Remove(student);
+    }
+
     public void Save()
     {
         _context.SaveChanges();
