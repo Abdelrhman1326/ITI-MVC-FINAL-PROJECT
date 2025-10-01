@@ -1,0 +1,31 @@
+﻿@model Student
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student Id</th>
+            <th>Student Name</th>
+            <th>Student Address</th>
+            <th>Student Grade</th>
+            <th>Department Id</th>
+            <th>Department Name</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>@Html.DisplayFor(model => model.StudentId)</td>
+    <td>@Html.DisplayFor(model => model.Name)</td>
+    <td>@Html.DisplayFor(model => model.Address)</td>
+    <td>@Html.DisplayFor(model => model.Grade)</td>
+    <td>@Html.DisplayFor(model => model.DeptId)</td>
+    <td>@Html.DisplayFor(model => model.Department.Name)</td>
+    <tr>
+    </tbody>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</table>

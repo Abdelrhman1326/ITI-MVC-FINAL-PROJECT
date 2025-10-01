@@ -1,4 +1,6 @@
-﻿namespace WebApplication1.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace WebApplication1.Repositories;
 using System.Collections.Generic;
 using WebApplication1.Models;
 using WebApplication1.Data;
@@ -17,5 +19,12 @@ public class StudentRepository : IStudentRepository
     public IEnumerable<Student> GetStudents()
     {
         return _context.Students.ToList(); 
+    }
+
+    public Student GetStudent(int id)
+    {
+        return _context.Students
+            .Include(s => s.Department)
+            .FirstOrDefault(s => s.StudentId == id);
     }
 }

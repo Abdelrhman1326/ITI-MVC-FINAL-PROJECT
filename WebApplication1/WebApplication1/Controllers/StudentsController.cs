@@ -19,4 +19,10 @@ public class StudentsController : Controller
         IEnumerable<Student> allStudents = _studentRepository.GetStudents();
         return View(allStudents);
     }
+
+    public IActionResult Details(int id)
+    {
+        Student student = _studentRepository.GetStudent(id);
+        return View(student);
+    }
 }

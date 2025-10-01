@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<WebApplication1.Models.Student>
+
 @{
     ViewData["Title"] = "Student List";
 }
@@ -8,9 +9,8 @@
 <table class="table">
     <thead>
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
+        <th>Student Id</th>
+        <th>Student Name</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -18,6 +18,9 @@
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
