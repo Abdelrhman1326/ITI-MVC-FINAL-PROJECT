@@ -130,6 +130,7 @@ public class StudentsController : Controller
         {
             return RedirectToAction(nameof(Index));
         }
+        
         _studentRepository.DeleteStudent(id);
         _studentRepository.Save();
         TempData["StatusMessage"] = $"Student with ID {id} has been successfully deleted.";
