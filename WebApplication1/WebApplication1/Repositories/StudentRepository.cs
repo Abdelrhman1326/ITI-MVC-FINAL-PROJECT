@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Repositories;
 using System.Collections.Generic;
@@ -20,11 +21,21 @@ public class StudentRepository : IStudentRepository
     {
         return _context.Students.ToList(); 
     }
-
+    
     public Student GetStudent(int id)
     {
         return _context.Students
             .Include(s => s.Department)
             .FirstOrDefault(s => s.StudentId == id);
+    }
+
+    public void EditStudent(Student student)
+    {
+        _context.Students.Update(student);
+    }
+
+    public void Save()
+    {
+        _context.SaveChanges();
     }
 }
