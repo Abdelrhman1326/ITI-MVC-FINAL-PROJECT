@@ -227,3 +227,8 @@ D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApp
 D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\obj\Debug\net9.0\WebApplication1.pdb
 D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\obj\Debug\net9.0\WebApplication1.genruntimeconfig.cache
 D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\obj\Debug\net9.0\ref\WebApplication1.dll
+D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
+D:\AbdElrhman\Studying\Courses\ITI .NET\MVC\Final Project\WebApplication1\WebApplication1\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll

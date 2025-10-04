@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using WebApplication1.Repositories;
-
 namespace WebApplication1.Controllers;
 
 public class StudentsController : Controller
@@ -49,7 +48,6 @@ public class StudentsController : Controller
             {
                 _studentRepository.CreateStudent(student);
                 _studentRepository.Save();
-            
                 return RedirectToAction(nameof(Index));
             }
 
@@ -80,7 +78,7 @@ public class StudentsController : Controller
     {
         if (id != student.StudentId) 
         {
-            return BadRequest(); 
+            return BadRequest();
         }
 
         if (ModelState.IsValid)
@@ -89,7 +87,6 @@ public class StudentsController : Controller
             {
                 _studentRepository.EditStudent(student);
                 _studentRepository.Save();
-                
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException)

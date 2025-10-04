@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
 
 namespace WebApplication1.Models
 {
@@ -14,8 +16,9 @@ namespace WebApplication1.Models
         [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
         public string? Image { get; set; }
-        public string? Address { get; set; }
-        public int Grade { get; set; }
+        public string Address { get; set; }
+        [Column(TypeName = "decimal(4,3)")]
+        public decimal Grade { get; set; }
 
         // Foreign key: Department
         public int DeptId { get; set; }
