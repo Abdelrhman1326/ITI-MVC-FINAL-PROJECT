@@ -34,7 +34,7 @@ public class StudentsController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        return View(); 
+        return View();
     }
 
     // POST: /Students/Create

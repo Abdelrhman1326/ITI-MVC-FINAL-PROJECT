@@ -5,10 +5,10 @@ namespace WebApplication1.Repositories;
 
 public interface ICourseRepository
 {
-    IEnumerable<Course> GetCourses();
-    Course GetCourse(int id);
-    void CreateCourse(Course course);
-    void EditCourse(Course course);
-    void DeleteCourse(int id);
-    void Save();
+    public IEnumerable<Course> GetCourses();
+    public Course GetCourse(int id);
+    public void CreateCourse(Course course);
+    public void EditCourse(Course course);
+    public void DeleteCourse(int id);
+    public void Save();
 }
