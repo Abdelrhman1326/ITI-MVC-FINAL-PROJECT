@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; 
 
 namespace WebApplication1.Models
 {
@@ -10,9 +11,9 @@ namespace WebApplication1.Models
 
         [Required]
         public string Name { get; set; } = string.Empty;
-
-        public int Degree { get; set; }
-        public int MinimumDegree { get; set; }
+        
+        [Column(TypeName = "decimal(4,3)")]
+        public decimal MinimumDegree { get; set; }
         [Precision(10, 2)]
         public decimal Hours { get; set; }
 
