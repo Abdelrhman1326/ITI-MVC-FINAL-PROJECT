@@ -16,9 +16,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Tells the DI container: When IStudentRepository is requested, provide StudentRepository.
 builder.Services.AddScoped<ICrudRepository<Student>, StudentRepository>();
 builder.Services.AddScoped<ICrudRepository<Course>, CourseRepository>();
+builder.Services.AddScoped<ICrudRepository<Department>, DepartmentRepository>();
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

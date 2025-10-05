@@ -1,0 +1,76 @@
+﻿@model WebApplication1.Models.Department
+
+@{
+    ViewData["Title"] = $"Details for Department: {Model.Name}";
+}
+
+<div class="p-4 bg-white rounded-lg shadow-sm">
+    <h2 class="card-header text-black text-center text-primary fw-bold">@ViewData["Title"]</h2>
+    
+    <div class="card-body">
+        
+        <dl class="row">
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.ManagerName)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ManagerName)
+            </dd>
+
+            @if (Model.Students != null)
+            {
+                <dt class="col-sm-3 fw-bold">
+                    Total Students
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.Students.Count
+                </dd>
+            }
+            
+            @if (Model.Courses != null)
+            {
+                <dt class="col-sm-3 fw-bold">
+                    Total Courses
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.Courses.Count
+                </dd>
+            }
+            
+            @if (Model.Instructors != null)
+            {
+                <dt class="col-sm-3 fw-bold">
+                    Total Instructors
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.Instructors.Count
+                </dd>
+            }
+        </dl>
+    </div>
+
+    <div class="pt-3">
+        @* Link to the Edit view, passing the Department ID *@
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning shadow-sm">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+        
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>
