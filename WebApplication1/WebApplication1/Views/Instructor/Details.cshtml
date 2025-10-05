@@ -22,18 +22,7 @@
             <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Address)</dt>
             <dd class="col-sm-9">@Html.DisplayFor(model => model.Address)</dd>
             
-            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Image)</dt>
-            <dd class="col-sm-9">
-                @if (!string.IsNullOrEmpty(Model.Image))
-                {
-                    // Assuming Image property holds a URL or path
-                    <img src="@Model.Image" alt="Instructor Image" style="max-height: 100px; max-width: 100px;" />
-                }
-                else
-                {
-                    <span>N/A</span>
-                }
-            </dd>
+            @* The Image field section has been removed *@
 
             <dt class="col-sm-3 fw-bold">Department</dt>
             <dd class="col-sm-9">

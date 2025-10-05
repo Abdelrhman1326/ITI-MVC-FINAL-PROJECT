@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using WebApplication1.Repositories;
@@ -7,12 +8,18 @@ namespace WebApplication1.Controllers;
 
 public class InstructorController : Controller
 {
-    // Dependency injection of the generic repository specific to Instructor
     private readonly ICrudRepository<Instructor> _instructorRepository;
+    private readonly ICrudRepository<Department> _departmentRepository;
+    private readonly ICrudRepository<Course> _courseRepository;
 
-    public InstructorController(ICrudRepository<Instructor> instructorRepository)
+    public InstructorController(
+        ICrudRepository<Instructor> instructorRepository,
+        ICrudRepository<Department> departmentRepository,
+        ICrudRepository<Course> courseRepository)
     {
         _instructorRepository = instructorRepository;
+        _departmentRepository = departmentRepository;
+        _courseRepository = courseRepository;
     }
     
     // GET: /Instructors
@@ -47,7 +54,7 @@ public class InstructorController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        // NOTE: In a real app, you'd pass SelectLists for DeptId and CrsId here.
+        SetAllSelectLists(null, null);
         return View();
     }
 
@@ -67,11 +74,12 @@ public class InstructorController : Controller
                 return RedirectToAction(nameof(Index)); 
             }
 
-            // NOTE: In a real app, you'd repopulate SelectLists here before returning the view.
+            SetAllSelectLists(instructor.DeptId, instructor.CrsId);
             return View(instructor);
         }
         catch (Exception exp)
         {
+            SetAllSelectLists(instructor.DeptId, instructor.CrsId);
             ModelState.AddModelError(string.Empty, "An error occurred while saving the instructor. Please check your data.");
             return View(instructor);
         }
@@ -86,7 +94,7 @@ public class InstructorController : Controller
         {
             return NotFound();
         }
-        // NOTE: In a real app, you'd pass SelectLists for DeptId and CrsId here.
+        SetAllSelectLists(instructor.DeptId, instructor.CrsId);
         return View(instructor);
     }
     
@@ -124,7 +132,7 @@ public class InstructorController : Controller
             }
         }
         
-        // NOTE: In a real app, you'd repopulate SelectLists here before returning the view.
+        SetAllSelectLists(instructor.DeptId, instructor.CrsId);
         return View(instructor);
     }
     
@@ -158,5 +166,24 @@ public class InstructorController : Controller
         
         TempData["StatusMessage"] = $"Instructor with ID {id} has been successfully deleted.";
         return RedirectToAction(nameof(Index));
+    }
+    
+    private void SetAllSelectLists(int? selectedDeptId, int? selectedCrsId)
+    {
+        // Populate Departments List
+        ViewData["Departments"] = new SelectList(
+            _departmentRepository.GetAll(), 
+            "Id", 
+            "Name", 
+            selectedDeptId // Set current selection
+        );
+
+        // Populate Courses List
+        ViewData["Courses"] = new SelectList(
+            _courseRepository.GetAll(), 
+            "Id", 
+            "Name", // Assuming the Course model has a 'Name' property
+            selectedCrsId // Set current selection
+        );
     }
 }

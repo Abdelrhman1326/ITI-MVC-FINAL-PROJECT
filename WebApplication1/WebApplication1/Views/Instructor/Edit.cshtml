@@ -1,7 +1,11 @@
 ﻿@model WebApplication1.Models.Instructor 
+@using Microsoft.AspNetCore.Mvc.Rendering 
 
 @{
     ViewData["Title"] = $"Edit Instructor: {Model.Name}";
+    // Retrieve the SelectLists passed by the controller
+    SelectList departmentList = (SelectList)ViewData["Departments"];
+    SelectList courseList = (SelectList)ViewData["Courses"];
 }
 
 <div class="p-4 bg-white rounded-lg">
@@ -37,24 +41,23 @@
                 <span asp-validation-for="Address" class="text-danger small"></span>
             </div>
             
-            @* Image Field (for file path/URL) *@
-            <div class="mb-2">
-                <label asp-for="Image" class="form-label fw-bold"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger small"></span>
-            </div>
+            @* Image Field was here, and has been removed. *@
 
-            @* DeptId (Foreign Key) Field *@
+            @* DeptId Dropdown List *@
             <div class="mb-2">
-                <label asp-for="DeptId" class="form-label fw-bold">Department ID</label>
-                <input asp-for="DeptId" class="form-control" /> 
+                <label asp-for="DeptId" class="form-label fw-bold">Department</label>
+                <select asp-for="DeptId" class="form-control" asp-items="departmentList">
+                    <option value="">-- Select Department --</option>
+                </select>
                 <span asp-validation-for="DeptId" class="text-danger small"></span>
             </div>
             
-            @* CrsId (Foreign Key) Field *@
+            @* CrsId Dropdown List *@
             <div class="mb-2">
-                <label asp-for="CrsId" class="form-label fw-bold">Course ID</label>
-                <input asp-for="CrsId" class="form-control" /> 
+                <label asp-for="CrsId" class="form-label fw-bold">Course</label>
+                <select asp-for="CrsId" class="form-control" asp-items="courseList">
+                    <option value="">-- Select Course --</option>
+                </select>
                 <span asp-validation-for="CrsId" class="text-danger small"></span>
             </div>
 
