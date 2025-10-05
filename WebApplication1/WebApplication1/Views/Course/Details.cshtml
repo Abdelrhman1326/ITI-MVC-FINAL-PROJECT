@@ -1,7 +1,7 @@
-﻿@model WebApplication1.Models.Student
+﻿@model WebApplication1.Models.Course
 
 @{
-    ViewData["Title"] = $"Details for Student: {Model.Name}";
+    ViewData["Title"] = $"Details for Course: {Model.Name}";
 }
 
 <div class="p-4 bg-white rounded-lg shadow-sm">
@@ -10,12 +10,11 @@
     <div class="card-body">
         
         <dl class="row">
-            
             <dt class="col-sm-3 fw-bold">
-                @Html.DisplayNameFor(model => model.StudentId)
+                @Html.DisplayNameFor(model => model.Id)
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.StudentId)
+                @Html.DisplayFor(model => model.Id)
             </dd>
 
             <dt class="col-sm-3 fw-bold">
@@ -26,17 +25,17 @@
             </dd>
 
             <dt class="col-sm-3 fw-bold">
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.MinimumDegree)
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.Address)
+                @Html.DisplayFor(model => model.MinimumDegree)
             </dd>
 
             <dt class="col-sm-3 fw-bold">
-                @Html.DisplayNameFor(model => model.Grade)
+                @Html.DisplayNameFor(model => model.Hours)
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.Grade)
+                @Html.DisplayFor(model => model.Hours)
             </dd>
 
             <dt class="col-sm-3 fw-bold">
@@ -46,7 +45,7 @@
                 @Html.DisplayFor(model => model.DeptId)
             </dd>
             
-            @* Check if the Department navigation property is loaded before trying to access its Name property *@
+            @* Optional: Display the Department Name if the navigation property 'Department' is eagerly loaded *@
             @if (Model.Department != null)
             {
                 <dt class="col-sm-3 fw-bold">
@@ -60,8 +59,8 @@
     </div>
 
     <div class="pt-3">
-        @* Added Edit button for completeness, like the Course Details view *@
-        <a asp-action="Edit" asp-route-id="@Model.StudentId" class="btn btn-warning shadow-sm">
+        @* Link to the Edit view, passing the Course ID *@
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning shadow-sm">
             <i class="bi bi-pencil"></i> Edit
         </a>
         
