@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using WebApplication1.Repositories;
@@ -8,22 +9,28 @@ namespace WebApplication1.Controllers;
 public class CourseController : Controller
 {
     private readonly ICrudRepository<Course> _courseRepository;
+    private readonly ICrudRepository<Instructor> _instructorRepository; 
+    private readonly ICrudRepository<Department> _departmentRepository; 
 
-    public CourseController(ICrudRepository<Course> courseRepository)
+    // Dependency Injection for all required repositories
+    public CourseController(
+        ICrudRepository<Course> courseRepository,
+        ICrudRepository<Instructor> instructorRepository,
+        ICrudRepository<Department> departmentRepository)
     {
         _courseRepository = courseRepository;
+        _instructorRepository = instructorRepository;
+        _departmentRepository = departmentRepository;
     }
     
     // GET: /Courses
     public IActionResult Index()
     {
         IEnumerable<Course> allCourses = _courseRepository.GetAll();
-    
         if (allCourses == null)
         {
             allCourses = Enumerable.Empty<Course>();
         }
-    
         return View(allCourses);
     }
     
@@ -38,37 +45,72 @@ public class CourseController : Controller
         return View(course);
     }
 
-    // GET: /Students/Create
-    // Get endpoint to return the creation form
+    // GET: /Courses/Create
     [HttpGet]
     public IActionResult Create()
     {
+        // 1. Fetch and prepare Departments for dropdown
+        ViewData["Departments"] = new SelectList(
+            _departmentRepository.GetAll(), 
+            "Id",                          
+            "Name"                         
+        );
+        
+        // 2. Fetch and prepare Instructors for dropdown
+        ViewData["Instructors"] = new SelectList(
+            _instructorRepository.GetAll(), 
+            "Id",
+            "Name"
+        );
+        
         return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(Course course)
+    public IActionResult Create(Course course, [FromForm] int? selectedInstructorId)
     {
         try
         {
             if (ModelState.IsValid)
             {
+                // Logic to link the selected instructor (Many-to-Many)
+                if (selectedInstructorId.HasValue)
+                {
+                    var instructor = _instructorRepository.GetOne(selectedInstructorId.Value);
+                    
+                    if (instructor != null)
+                    {
+                        if (course.Instructors == null)
+                        {
+                            course.Instructors = new List<Instructor>();
+                        }
+                        
+                        // Attach the Instructor to the Course
+                        course.Instructors.Add(instructor);
+                    }
+                }
+                
                 _courseRepository.Create(course);
                 _courseRepository.Save();
-                return RedirectToAction(nameof(Index)); // return to the index of the page -> Courses
+                return RedirectToAction(nameof(Index));
             }
 
-            return View(course); // return the view if input errors found
+            // If validation fails, re-fetch SelectLists before returning view
+            SetViewDataSelectLists(course.DeptId, selectedInstructorId);
+            return View(course);
         }
         catch (Exception exp)
         {
-            ModelState.AddModelError(string.Empty, "An error occurred while saving the course. Please check your data.");
+            // If exception occurs, re-fetch SelectLists before returning view
+            SetViewDataSelectLists(course.DeptId, selectedInstructorId);
+            ModelState.AddModelError(string.Empty, $"An error occurred while saving the course: {exp.Message}");
             return View(course);
         }
     }
     
-    // GET: /Students/Edit/5
+    // GET: /Courses/Edit/5
+    // NOTE: For full functionality, this should also load Department/Instructor lists.
     public IActionResult Edit(int id)
     {
         var course = _courseRepository.GetOne(id);
@@ -76,7 +118,12 @@ public class CourseController : Controller
         {
             return NotFound();
         }
-        return  View(course);
+        
+        // Prepare SelectLists for the Edit view
+        int? currentInstructorId = course.Instructors?.FirstOrDefault()?.Id;
+        SetViewDataSelectLists(course.DeptId, currentInstructorId);
+        
+        return View(course);
     }
     
     // POST: /Courses/Edit/5
@@ -93,6 +140,7 @@ public class CourseController : Controller
         {
             try
             {
+                // NOTE: Full Edit logic for Many-to-Many would require updating the Instructors collection here.
                 _courseRepository.Edit(course);
                 _courseRepository.Save();
                 return RedirectToAction(nameof(Index));
@@ -112,6 +160,8 @@ public class CourseController : Controller
             }
         }
         
+        // If validation/save fails, re-fetch SelectLists before returning view
+        SetViewDataSelectLists(course.DeptId, null); // Cannot easily determine current instructor here
         return View(course);
     }
     
@@ -141,5 +191,19 @@ public class CourseController : Controller
         _courseRepository.Save();
         TempData["StatusMessage"] = $"Course with ID {id} has been successfully deleted.";
         return RedirectToAction(nameof(Index));
+    }
+    
+    // Helper method to keep code clean and dry
+    private void SetViewDataSelectLists(int? selectedDeptId, int? selectedInstructorId)
+    {
+        ViewData["Departments"] = new SelectList(
+            _departmentRepository.GetAll(), 
+            "Id", "Name", selectedDeptId
+        );
+        
+        ViewData["Instructors"] = new SelectList(
+            _instructorRepository.GetAll(), 
+            "Id", "Name", selectedInstructorId
+        );
     }
 }

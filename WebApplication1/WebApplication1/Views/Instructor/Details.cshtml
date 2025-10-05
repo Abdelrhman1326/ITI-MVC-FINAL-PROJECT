@@ -1,0 +1,61 @@
+﻿@model WebApplication1.Models.Instructor
+
+@{
+    ViewData["Title"] = $"Details for Instructor: {Model.Name}";
+}
+
+<div class="p-4 bg-white rounded-lg shadow-sm">
+    <h2 class="card-header text-black text-center text-primary fw-bold">@ViewData["Title"]</h2>
+    
+    <div class="card-body">
+        
+        <dl class="row">
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Id)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Id)</dd>
+
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Name)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Salary)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Salary)</dd>
+
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Address)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Address)</dd>
+            
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Image)</dt>
+            <dd class="col-sm-9">
+                @if (!string.IsNullOrEmpty(Model.Image))
+                {
+                    // Assuming Image property holds a URL or path
+                    <img src="@Model.Image" alt="Instructor Image" style="max-height: 100px; max-width: 100px;" />
+                }
+                else
+                {
+                    <span>N/A</span>
+                }
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">Department</dt>
+            <dd class="col-sm-9">
+                @* Check if Department was eagerly loaded by the repository *@
+                @(Model.Department != null ? Model.Department.Name : $"ID: {Model.DeptId}")
+            </dd>
+            
+            <dt class="col-sm-3 fw-bold">Course</dt>
+            <dd class="col-sm-9">
+                @* Check if Course was eagerly loaded by the repository *@
+                @(Model.Course != null ? Model.Course.Name : $"ID: {Model.CrsId}")
+            </dd>
+        </dl>
+    </div>
+
+    <div class="pt-3">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning shadow-sm">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+        
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>
