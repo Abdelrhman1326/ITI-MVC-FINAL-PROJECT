@@ -7,9 +7,9 @@ namespace WebApplication1.Controllers;
 
 public class CourseController : Controller
 {
-    private readonly ICourseRepository _courseRepository;
+    private readonly ICrudRepository<Course> _courseRepository;
 
-    public CourseController(ICourseRepository courseRepository)
+    public CourseController(ICrudRepository<Course> courseRepository)
     {
         _courseRepository = courseRepository;
     }
@@ -17,7 +17,7 @@ public class CourseController : Controller
     // GET: /Courses
     public IActionResult Index()
     {
-        IEnumerable<Course> allCourses = _courseRepository.GetCourses();
+        IEnumerable<Course> allCourses = _courseRepository.GetAll();
     
         if (allCourses == null)
         {
@@ -30,7 +30,7 @@ public class CourseController : Controller
     // GET: /Courses/Details
     public IActionResult Details(int id)
     {
-        Course course = _courseRepository.GetCourse(id);
+        Course course = _courseRepository.GetOne(id);
         if (course == null)
         {
             return NotFound();
@@ -54,7 +54,7 @@ public class CourseController : Controller
         {
             if (ModelState.IsValid)
             {
-                _courseRepository.CreateCourse(course);
+                _courseRepository.Create(course);
                 _courseRepository.Save();
                 return RedirectToAction(nameof(Index)); // return to the index of the page -> Courses
             }
@@ -71,7 +71,7 @@ public class CourseController : Controller
     // GET: /Students/Edit/5
     public IActionResult Edit(int id)
     {
-        var course = _courseRepository.GetCourse(id);
+        var course = _courseRepository.GetOne(id);
         if (course == null)
         {
             return NotFound();
@@ -93,13 +93,13 @@ public class CourseController : Controller
         {
             try
             {
-                _courseRepository.EditCourse(course);
+                _courseRepository.Edit(course);
                 _courseRepository.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (_courseRepository.GetCourse(course.Id) == null)
+                if (_courseRepository.GetOne(course.Id) == null)
                 {
                     return NotFound();
                 }
@@ -118,7 +118,7 @@ public class CourseController : Controller
     // GET: /Courses/Delete/5
     public IActionResult Delete(int id)
     {
-        var course = _courseRepository.GetCourse(id);
+        var course = _courseRepository.GetOne(id);
         if (course == null)
         {
             return NotFound();
@@ -131,13 +131,13 @@ public class CourseController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
     {
-        var course = _courseRepository.GetCourse(id);
+        var course = _courseRepository.GetOne(id);
         if (course == null)
         {
             return RedirectToAction(nameof(Index));
         }
         
-        _courseRepository.DeleteCourse(id);
+        _courseRepository.Delete(id);
         _courseRepository.Save();
         TempData["StatusMessage"] = $"Course with ID {id} has been successfully deleted.";
         return RedirectToAction(nameof(Index));

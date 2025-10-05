@@ -7,7 +7,7 @@ using WebApplication1.Models;
 using WebApplication1.Data;
 using System.Linq;
 
-public class CourseRepository : ICourseRepository
+public class CourseRepository : ICrudRepository<Course>
 {
     private readonly ApplicationDbContext _context;
     
@@ -17,27 +17,27 @@ public class CourseRepository : ICourseRepository
         _context = context;
     }
     
-    public IEnumerable<Course> GetCourses()
+    public IEnumerable<Course> GetAll()
     {
         return _context.Courses.ToList(); 
     }
     
-    public Course GetCourse(int id)
+    public Course GetOne(int id)
     {
         return _context.Courses.Find(id);
     }
     
-    public void CreateCourse(Course course)
+    public void Create(Course course)
     {
         _context.Courses.Add(course);
     }
     
-    public void EditCourse(Course course)
+    public void Edit(Course course)
     {
         _context.Courses.Update(course);
     }
 
-    public void DeleteCourse(int id)
+    public void Delete(int id)
     {
         var courseToDelete = _context.Courses.Find(id);
         if (courseToDelete != null)

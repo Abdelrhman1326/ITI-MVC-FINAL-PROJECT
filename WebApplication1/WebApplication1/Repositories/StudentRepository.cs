@@ -7,7 +7,7 @@ using WebApplication1.Models;
 using WebApplication1.Data;
 using System.Linq;
 
-public class StudentRepository : IStudentRepository
+public class StudentRepository : ICrudRepository<Student>
 {
     private readonly ApplicationDbContext _context;
     
@@ -17,32 +17,32 @@ public class StudentRepository : IStudentRepository
         _context = context;
     }
     
-    public IEnumerable<Student> GetStudents()
+    public IEnumerable<Student> GetAll()
     {
         return _context.Students.ToList(); 
     }
     
-    public Student GetStudent(int id)
+    public Student GetOne(int id)
     {
         return _context.Students
             .Include(s => s.Department)
             .FirstOrDefault(s => s.StudentId == id);
     }
 
-    public void CreateStudent(Student student)
+    public void Create(Student student)
     {
         _context.Students.Add(student);
         _context.SaveChanges();
     }
 
-    public void EditStudent(Student student)
+    public void Edit(Student student)
     {
         _context.Students.Update(student);
     }
 
-    public void DeleteStudent(int id)
+    public void Delete(int id)
     {
-        var student = GetStudent(id);
+        var student = GetOne(id);
         _context.Students.Remove(student);
     }
 

@@ -6,9 +6,9 @@ namespace WebApplication1.Controllers;
 
 public class StudentsController : Controller
 {
-    private readonly IStudentRepository _studentRepository;
+    private readonly ICrudRepository<Student> _studentRepository;
     
-    public StudentsController(IStudentRepository studentRepository)
+    public StudentsController(ICrudRepository<Student> studentRepository)
     {
         _studentRepository = studentRepository;
     }
@@ -16,13 +16,13 @@ public class StudentsController : Controller
     // GET: /Students
     public IActionResult Index()
     {
-        IEnumerable<Student> allStudents = _studentRepository.GetStudents();
+        IEnumerable<Student> allStudents = _studentRepository.GetAll();
         return View(allStudents);
     }
 
     public IActionResult Details(int id)
     {
-        Student student = _studentRepository.GetStudent(id);
+        Student student = _studentRepository.GetOne(id);
         if (student == null)
         {
             return NotFound();
@@ -46,7 +46,7 @@ public class StudentsController : Controller
         {
             if (ModelState.IsValid)
             {
-                _studentRepository.CreateStudent(student);
+                _studentRepository.Create(student);
                 _studentRepository.Save();
                 return RedirectToAction(nameof(Index));
             }
@@ -63,7 +63,7 @@ public class StudentsController : Controller
     // GET: /Students/Edit/5
     public IActionResult Edit(int id)
     {
-        var student = _studentRepository.GetStudent(id);
+        var student = _studentRepository.GetOne(id);
         if (student == null)
         {
             return NotFound();
@@ -85,13 +85,13 @@ public class StudentsController : Controller
         {
             try
             {
-                _studentRepository.EditStudent(student);
+                _studentRepository.Edit(student);
                 _studentRepository.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (_studentRepository.GetStudent(student.StudentId) == null)
+                if (_studentRepository.GetOne(student.StudentId) == null)
                 {
                     return NotFound();
                 }
@@ -109,7 +109,7 @@ public class StudentsController : Controller
     // GET: /Students/Delete/5
     public IActionResult Delete(int id)
     {
-        var student = _studentRepository.GetStudent(id);
+        var student = _studentRepository.GetOne(id);
         if (student == null)
         {
             return NotFound();
@@ -122,13 +122,13 @@ public class StudentsController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
     {
-        var student = _studentRepository.GetStudent(id);
+        var student = _studentRepository.GetOne(id);
         if (student == null)
         {
             return RedirectToAction(nameof(Index));
         }
         
-        _studentRepository.DeleteStudent(id);
+        _studentRepository.Delete(id);
         _studentRepository.Save();
         TempData["StatusMessage"] = $"Student with ID {id} has been successfully deleted.";
         return RedirectToAction(nameof(Index));

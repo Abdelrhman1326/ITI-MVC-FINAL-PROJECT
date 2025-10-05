@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
+using WebApplication1.Models;
 using WebApplication1.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +14,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // REGISTER THE REPOSITORY SERVICE HERE
 // Tells the DI container: When IStudentRepository is requested, provide StudentRepository.
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICrudRepository<Student>, StudentRepository>();
+builder.Services.AddScoped<ICrudRepository<Course>, CourseRepository>();
 
 var app = builder.Build();
 
