@@ -14,6 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // REGISTER THE REPOSITORY SERVICE HERE
 // Tells the DI container: When IStudentRepository is requested, provide StudentRepository.
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
 var app = builder.Build();
 

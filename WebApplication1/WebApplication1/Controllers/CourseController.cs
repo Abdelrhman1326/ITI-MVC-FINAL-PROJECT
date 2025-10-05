@@ -18,6 +18,12 @@ public class CourseController : Controller
     public IActionResult Index()
     {
         IEnumerable<Course> allCourses = _courseRepository.GetCourses();
+    
+        if (allCourses == null)
+        {
+            allCourses = Enumerable.Empty<Course>();
+        }
+    
         return View(allCourses);
     }
     
