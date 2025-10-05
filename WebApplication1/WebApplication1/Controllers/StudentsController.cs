@@ -1,16 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using WebApplication1.Repositories;
+
 namespace WebApplication1.Controllers;
 
 public class StudentsController : Controller
 {
     private readonly ICrudRepository<Student> _studentRepository;
+    private readonly ICrudRepository<Department> _departmentRepository;
     
-    public StudentsController(ICrudRepository<Student> studentRepository)
+    public StudentsController(
+        ICrudRepository<Student> studentRepository,
+        ICrudRepository<Department> departmentRepository) 
     {
         _studentRepository = studentRepository;
+        _departmentRepository = departmentRepository;
     }
     
     // GET: /Students
@@ -34,6 +40,7 @@ public class StudentsController : Controller
     [HttpGet]
     public IActionResult Create()
     {
+        SetDepartmentSelectList(null);
         return View();
     }
 
@@ -51,10 +58,12 @@ public class StudentsController : Controller
                 return RedirectToAction(nameof(Index));
             }
 
+            SetDepartmentSelectList(student.DeptId);
             return View(student);
         }
         catch (Exception exp)
         {
+            SetDepartmentSelectList(student.DeptId);
             ModelState.AddModelError(string.Empty, "An error occurred while saving the student. Please check your data.");
             return View(student);
         }
@@ -68,6 +77,7 @@ public class StudentsController : Controller
         {
             return NotFound();
         }
+        SetDepartmentSelectList(student.DeptId);
         return View(student);
     }
     
@@ -103,6 +113,7 @@ public class StudentsController : Controller
             }
         }
         
+        SetDepartmentSelectList(student.DeptId);
         return View(student);
     }
 
@@ -132,5 +143,15 @@ public class StudentsController : Controller
         _studentRepository.Save();
         TempData["StatusMessage"] = $"Student with ID {id} has been successfully deleted.";
         return RedirectToAction(nameof(Index));
+    }
+    
+    private void SetDepartmentSelectList(int? selectedId)
+    {
+        ViewData["Departments"] = new SelectList(
+            _departmentRepository.GetAll(), 
+            "Id", 
+            "Name", 
+            selectedId
+        );
     }
 }
