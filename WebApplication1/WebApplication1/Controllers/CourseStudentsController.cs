@@ -1,12 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Data;
+using WebApplication1.Models;
+using WebApplication1.Repositories;
 
 namespace WebApplication1.Controllers;
 
 public class CourseStudentsController : Controller
 {
-    // GET
+    private readonly CourseStudentRepository _repository;
+    public CourseStudentsController(CourseStudentRepository  repository)
+    {
+        _repository = repository;
+    }
+    // GET -> index -> should return a list of all available courses
     public IActionResult Index()
     {
-        return View();
+        List<Course> courses = _repository.GetAllCourses();
+        return View(courses);
+    }
+    
+    // GET INDEX/id -> return students assigned to the passesd id:
+    public IActionResult Students(int id)
+    {
+        List<Student> students = _repository.GetStudentsByCourseId(id);
+        return View(students);
     }
 }

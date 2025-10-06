@@ -14,7 +14,7 @@ public class CourseStudentRepository
         _context = context;
     }
     // method to get all courses
-    public IList<Course> GetAllCourses()
+    public List<Course> GetAllCourses()
     {
         return _context.Courses.ToList();
     }
