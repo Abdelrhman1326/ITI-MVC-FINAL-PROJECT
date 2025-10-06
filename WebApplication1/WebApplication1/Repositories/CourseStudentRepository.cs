@@ -26,7 +26,9 @@ public class CourseStudentRepository
             .Select(x => x.StudentId)
             .ToList();
         // create a list of students with selected ids:
-        List<Student> students = _context.Students.Where(s => stududentsIdList.Contains(s.StudentId)).ToList();
+        List<Student> students = _context.Students
+            .Where(s => stududentsIdList.Contains(s.StudentId))
+            .ToList();
         return students;
     }
 }
