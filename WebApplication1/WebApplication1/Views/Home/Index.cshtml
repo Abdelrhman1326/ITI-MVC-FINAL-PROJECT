@@ -1,8 +1,116 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "University Management System";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    /* ... (CSS styles remain the same) ... */
+    body {
+        background: linear-gradient(135deg, #f9f9f9 0%, #dceeff 50%, #b5d9ff 100%);
+        color: #0a2540;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        overflow-y: hidden;
+    }
+
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .hero h1 {
+        font-size: 3.8rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, #007bff, #00c6ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-top: 0.5rem;
+        margin-bottom: 3rem;
+        max-width: 700px;
+        color: #333;
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 16px;
+        width: 220px;
+        height: 150px;
+        text-align: center;
+        text-decoration: none;
+        color: #003366;
+        box-shadow: 0 4px 15px rgba(0, 102, 204, 0.15);
+        backdrop-filter: blur(6px);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid rgba(0, 102, 204, 0.15);
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 30px rgba(0, 102, 204, 0.25);
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+        color: #fff;
+    }
+
+    .card h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+    }
+
+    .card p {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        margin: 0;
+    }
+</style>
+
+<div class="hero">
+    <h1>University Management System</h1>
+    <p>A complete management hub for Students, Courses, Instructors, and Departments.</p>
+    
+    <div class="card-container">
+        <a asp-controller="Students" asp-action="Index" class="card">
+            <h3>Students</h3>
+            <p>Manage all students</p>
+        </a>
+        <a asp-controller="Course" asp-action="Index" class="card">
+            <h3>Courses</h3>
+            <p>View and edit courses</p>
+        </a>
+        <a asp-controller="Instructor" asp-action="Index" class="card">
+            <h3>Instructors</h3>
+            <p>Instructor information</p>
+        </a>
+        <a asp-controller="Department" asp-action="Index" class="card">
+            <h3>Departments</h3>
+            <p>Manage departments</p>
+        </a>
+        <a asp-controller="CourseStudents" asp-action="Index" class="card">
+            <h3>Course Students</h3>
+            <p>View enrollments</p>
+        </a>
+    </div>
+
 </div>
