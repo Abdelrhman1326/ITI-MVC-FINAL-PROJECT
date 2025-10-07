@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using WebApplication1.Repositories;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace WebApplication1.Controllers;
 
@@ -11,16 +14,19 @@ public class CourseController : Controller
     private readonly ICrudRepository<Course> _courseRepository;
     private readonly ICrudRepository<Instructor> _instructorRepository; 
     private readonly ICrudRepository<Department> _departmentRepository; 
+    private readonly ICourseStudentRepository _courseStudentRepository;
 
     // Dependency Injection for all required repositories
     public CourseController(
         ICrudRepository<Course> courseRepository,
         ICrudRepository<Instructor> instructorRepository,
-        ICrudRepository<Department> departmentRepository)
+        ICrudRepository<Department> departmentRepository,
+        ICourseStudentRepository courseStudentRepository)
     {
         _courseRepository = courseRepository;
         _instructorRepository = instructorRepository;
         _departmentRepository = departmentRepository;
+        _courseStudentRepository = courseStudentRepository;
     }
     
     // GET: /Courses
@@ -193,7 +199,6 @@ public class CourseController : Controller
         return RedirectToAction(nameof(Index));
     }
     
-    // Helper method to keep code clean and dry
     private void SetViewDataSelectLists(int? selectedDeptId, int? selectedInstructorId)
     {
         ViewData["Departments"] = new SelectList(

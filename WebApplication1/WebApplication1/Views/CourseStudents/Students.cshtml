@@ -1,0 +1,101 @@
+﻿@model List<Student>
+
+@{
+    ViewData["Title"] = "Students Enrolled";
+    var courseId = ViewData["CourseId"];
+    var courseName = ViewData["CourseName"]; 
+}
+
+<h2 style="color: #0056b3; border-bottom: 2px solid #0056b3; padding-bottom: 5px; font-family: Arial; font-weight: bold">
+    Students Enrolled in Course @(@courseName ?? @courseId.ToString())
+</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div style="background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; border-radius: 4px; margin-bottom: 20px;">
+        @TempData["Message"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; border-radius: 4px; margin-bottom: 20px;">
+        @TempData["Error"]
+    </div>
+}
+
+<div style="border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; margin-bottom: 25px; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+    <h3 style="color: #212529; margin-top: 0; border-bottom: 1px dashed #ced4da; padding-bottom: 10px;">
+        Enroll a New Student
+    </h3>
+    
+    <form asp-controller="CourseStudents" 
+          asp-action="AddStudentToCourse" 
+          method="post"
+          style="display: flex; gap: 10px; align-items: center;">
+        
+        <input type="hidden" name="courseId" value="@courseId" />
+        
+        <label for="studentIdInput" style="font-weight: bold; min-width: 80px;">Student ID:</label>
+        
+        <input type="number" 
+               id="studentIdInput"
+               name="studentId" 
+               placeholder="Enter Student ID" 
+               required 
+               style="padding: 8px; border: 1px solid #ced4da; border-radius: 4px; flex-grow: 1;" />
+               
+        <button type="submit" 
+                style="background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+            Add Student
+        </button>
+    </form>
+</div>
+
+<hr style="border-top: 1px solid #ced4da; margin-bottom: 20px;" />
+
+@if (Model != null && Model.Count > 0)
+{
+    <h3 style="color: #343a40; margin-top: 0;">Currently Enrolled Students</h3>
+    
+    <table style="width: 100%; border-collapse: collapse; margin-top: 15px; background-color: #ffffff;">
+        <thead>
+            <tr style="background-color: #e9ecef;">
+                <th style="border: 1px solid #dee2e6; padding: 12px 15px; text-align: left; width: 25%;">Student ID</th>
+                <th style="border: 1px solid #dee2e6; padding: 12px 15px; text-align: left;">Student Name</th>
+                <th style="border: 1px solid #dee2e6; padding: 12px 15px; text-align: left; width: 10%;">Action</th> </tr>
+        </thead>
+        <tbody>
+            @foreach(Student student in Model)
+            {
+                <tr style="@(Model.IndexOf(student) % 2 == 1 ? "background-color: #f8f9fa;" : "")"> 
+                    <td style="border: 1px solid #e9ecef; padding: 10px 15px;">@student.StudentId</td>
+                    <td style="border: 1px solid #e9ecef; padding: 10px 15px; font-weight: bold;">@student.Name</td>
+                    
+                    <td style="border: 1px solid #e9ecef; padding: 10px 15px; text-align: center;"> 
+                        <form asp-controller="CourseStudents" 
+                              asp-action="RemoveStudentFromCourse" 
+                              asp-route-courseId="@courseId"
+                              asp-route-studentId="@student.StudentId"
+                              method="post"
+                              style="margin: 0;">
+                            
+                            @Html.AntiForgeryToken()
+                            
+                            <button type="submit" 
+                                    style="background-color: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer;"
+                                    onclick="return confirm('Are you sure you want to remove @student.Name from this course?');">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p style="color: #6c757d; font-style: italic; padding: 10px; border: 1px dashed #ced4da; border-radius: 4px; text-align: center;">
+        No students are currently enrolled in this course.
+    </p>
+}
