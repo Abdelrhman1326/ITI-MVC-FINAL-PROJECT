@@ -1,0 +1,18 @@
+﻿@model List<Course>
+
+@{
+    ViewData["Title"] = "Course List";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<ul>
+    @foreach(Course course in Model)
+    {
+        <li>
+            <dl>
+                <dd>@course.Name <a asp-action="Students" asp-route-id="@course.Id">View assigned students</a></dd>
+            </dl>
+        </li>
+    }
+</ul>

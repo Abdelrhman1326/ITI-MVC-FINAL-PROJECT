@@ -7,8 +7,8 @@ namespace WebApplication1.Controllers;
 
 public class CourseStudentsController : Controller
 {
-    private readonly CourseStudentRepository _repository;
-    public CourseStudentsController(CourseStudentRepository  repository)
+    private readonly ICourseStudentRepository _repository;
+    public CourseStudentsController(ICourseStudentRepository repository)
     {
         _repository = repository;
     }

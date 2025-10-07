@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace WebApplication1.Repositories;
 
-public class CourseStudentRepository
+public class CourseStudentRepository : ICourseStudentRepository
 {
     private readonly ApplicationDbContext _context;
 
@@ -13,11 +13,13 @@ public class CourseStudentRepository
     {
         _context = context;
     }
+
     // method to get all courses
     public List<Course> GetAllCourses()
     {
         return _context.Courses.ToList();
     }
+
     // method to get all students assigned to course
     public List<Student> GetStudentsByCourseId(int id)
     {
