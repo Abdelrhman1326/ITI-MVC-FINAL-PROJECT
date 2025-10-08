@@ -1,0 +1,5 @@
+# Binaries and temporary files
+[Bb]in/
+[Oo]bj/
+.vs/
+.vscode/

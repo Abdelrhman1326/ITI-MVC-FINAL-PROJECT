@@ -20,6 +20,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     
+                    <!-- LEFT SIDE: Main Navigation Links -->
                     <ul class="navbar-nav flex-grow-1">
                         @{
                             // Retrieve and normalize the current controller and action names for reliable comparison
@@ -63,14 +64,10 @@
                         </li>
                     </ul>
                     
-                    <ul class="navbar-nav **ms-auto**">
-                        
-                        <li class="nav-item **me-2**">
-                            <a class="btn **btn-outline-primary**" style="background-color: #0a53be; color: white;" asp-area="" asp-controller="Account" asp-action="Register">Signup</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn **btn-primary**" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                        </li>
+                    <!-- RIGHT SIDE: Authentication Buttons -->
+                    <!-- This line pulls the dynamic Login/Register/Logout buttons from the partial file -->
+                    <ul class="navbar-nav ms-auto">
+                        <partial name="_LoginPartial" />
                     </ul>
                 </div>
             </div>
